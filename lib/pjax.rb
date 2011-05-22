@@ -2,7 +2,7 @@ module Pjax
   extend ActiveSupport::Concern
   
   included do
-    layout ->(c) { pjax_request? ? false : 'application' }
+    layout ->(c) { pjax_request? ? pjax_layout? : 'application' }
   end
   
   private  
@@ -26,4 +26,9 @@ module Pjax
     def pjax_request?
       env['HTTP_X_PJAX'].present?
     end
+    
+    def pjax_layout?
+      File.exists?(RAILS_ROOT+"/app/views/layouts/pjax.haml" ? 'pjax' : false
+    end
+
 end
